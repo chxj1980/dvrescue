@@ -138,7 +138,9 @@ char uint4_to_hex4(int Value)
 bool Frame_HasErrors(const MediaInfo_Event_DvDif_Analysis_Frame_1& Frame)
 {
     return Frame.Video_STA_Errors || Frame.Audio_Data_Errors
-        || ((Frame.TimeCode >> 30) & 0x1) || ((Frame.RecordedDateTime1 >> 30) & 0x1) || (Frame.Arb & (1 << 6)); // Non consecutive
+        || ((Frame.TimeCode >> 30) & 0x1) || ((Frame.RecordedDateTime1 >> 30) & 0x1) || (Frame.Arb & (1 << 6)) // Non consecutive
+        || (Frame.AbstBf != 0xFFFFFFFF && ((Frame.AbstBf >> 30) & 0x1))  // Non consecutive
+        || (Frame.AbstBf != 0xFFFFFFFF && ((Frame.AbstBf >> 31) & 0x1)); // Repeat
 }
 
 computed_errors::computed_errors()

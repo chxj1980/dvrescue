@@ -38,6 +38,20 @@ private:
     decltype(MediaInfo_Event_DvDif_Analysis_Frame_1::Arb) _Value;
 };
 
+struct abst_bf
+{
+public:
+    abst_bf(decltype(MediaInfo_Event_DvDif_Analysis_Frame_1::AbstBf) Value) : _Value(Value) {}
+    inline bool HasValue() { return _Value != 0xFFFFFFFF; }
+    inline int BlankFlag() { return _Value & 1; }                                  //  0
+    inline int AbsoluteTrackNumber() { return (_Value >> 1) & 0x7FFFFF; }          //  1-23
+    inline bool NonConsecutive() { return HasValue() && (_Value & (1 << 30)); }    // 30
+    inline bool Repeat() { return HasValue() && (_Value & (1 << 31)); }            // 31
+
+private:
+    decltype(MediaInfo_Event_DvDif_Analysis_Frame_1::AbstBf) _Value;
+};
+
 struct timecode
 {
 public:
